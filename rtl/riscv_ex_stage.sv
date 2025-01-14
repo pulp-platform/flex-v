@@ -532,9 +532,6 @@ module riscv_ex_stage
            assign {fpu_vec_op, fpu_op_mod, fpu_op} = apu_op_i;
            assign {fpu_int_fmt, fpu_src_fmt, fpu_dst_fmt, fp_rnd_mode} = apu_flags_i;
 
-           unit_type_t C_DIV;
-           assign C_DIV = FP_DIVSQRT ? fpnew_pkg::MERGED : fpnew_pkg::DISABLED;
-
            logic FPU_ready_int;
 
           // -----------
@@ -553,7 +550,7 @@ module riscv_ex_stage
           localparam fpnew_pkg::fpu_implementation_t FPU_IMPLEMENTATION = '{
             PipeRegs:  '{default: 1},
             UnitTypes: '{'{default: fpnew_pkg::MERGED}, // ADDMUL
-                         '{default: C_DIV},               // DIVSQRT
+                         '{default: FP_DIVSQRT ? fpnew_pkg::MERGED : fpnew_pkg::DISABLED},               // DIVSQRT
                          '{default: fpnew_pkg::PARALLEL}, // NONCOMP
                          '{default: fpnew_pkg::MERGED},  // CONV
                          '{default: fpnew_pkg::MERGED}},  // DOTP
